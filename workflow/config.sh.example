@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# ── Course configuration ──────────────────────────────────────────────
+# Copy this file to workflow/config.sh and edit as needed:
+#   cp workflow/config.sh.example workflow/config.sh
+#
+# All paths are relative to the repository root.
+# ──────────────────────────────────────────────────────────────────────
+
+# Number of CPUs to use (adjust to your HPC allocation)
+CPUS=8
+
+# Input genome assembly
+ASSEMBLY="data/input/assembly.fasta"
+
+# Database directory (built by instructor prep scripts)
+DB_DIR="data/db"
+
+# DIAMOND database name (without .dmnd extension)
+DIAMOND_DB="${DB_DIR}/teaching_proteins"
+
+# HMM database for hmmscan
+# Use "subset" for fast in-class mode, "full" for Pfam-A
+HMM_DB="${DB_DIR}/pfam_subset.hmm"
+# HMM_DB="${DB_DIR}/Pfam-A.hmm"    # uncomment for full Pfam
+
+# Output directory (auto-generated with timestamp by default)
+OUTDIR="outputs/run_$(date +%Y%m%d_%H%M%S)"
+
+# hmmscan Plan-B: limit to first N proteins (0 = no limit)
+MAX_PROTEINS=0
+
+# Prokka options
+PROKKA_KINGDOM="Bacteria"
+PROKKA_PREFIX="ANNOT"
+
+# ── End of config ────────────────────────────────────────────────────

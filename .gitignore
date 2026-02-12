@@ -1,0 +1,38 @@
+# Databases (too large for git)
+data/db/*.dmnd
+data/db/*.h3m
+data/db/*.h3i
+data/db/*.h3f
+data/db/*.h3p
+data/db/*.hmm
+data/db/*.hmm.gz
+data/db/*.fasta
+data/db/*.fasta.gz
+data/db/*.fa
+data/db/*.fa.gz
+data/db/Pfam-A*
+data/db/pfam_subset*
+
+# Outputs
+outputs/
+
+# User config
+workflow/config.sh
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Conda/mamba
+.conda/
+__pycache__/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

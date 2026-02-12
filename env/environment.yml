@@ -1,0 +1,14 @@
+name: ngs-annotation
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - prokka=1.14.6
+  - seqkit=2.8.2
+  - diamond=2.1.9
+  - hmmer=3.4
+  - csvkit=2.0.1
+  - pigz=2.8
+  - wget
+  - curl
