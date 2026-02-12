@@ -107,30 +107,47 @@ DOMAIN_LIST=(
     PF00595 PF00596 PF00623 PF00624 PF00627 PF00628 PF00633 PF00636
 )
 
-# Extract subset using hmmfetch
+# Extract subset using awk (handles versioned accessions like PF00005.30)
 echo "    Extracting ${#DOMAIN_LIST[@]} domains from full Pfam-A..."
 
-# Create accession list file
+# Build a lookup set from the domain list
 ACC_FILE="${DB_DIR}/.pfam_subset_accessions.txt"
 printf '%s\n' "${DOMAIN_LIST[@]}" > "$ACC_FILE"
 
-# Index Pfam-A if not already indexed (needed for hmmfetch)
-if [ ! -f "${PFAM_FULL}.ssi" ]; then
-    echo "    Indexing Pfam-A (one-time operation)..."
-    hmmfetch --index "$PFAM_FULL"
-fi
+# Extract matching HMM records directly from the flat file.
+# Pfam accessions are versioned (PF00005.30); we match the base accession.
+awk '
+    BEGIN {
+        while ((getline acc < ARGV[1]) > 0) wanted[acc] = 1
+        delete ARGV[1]
+    }
+    /^HMMER/ { rec = $0 "\n"; capturing = 0; next }
+    /^ACC / {
+        base = $2
+        sub(/\.[0-9]+$/, "", base)
+        capturing = (base in wanted)
+        rec = rec $0 "\n"
+        next
+    }
+    /^\/\// {
+        if (capturing) print rec $0
+        rec = ""
+        capturing = 0
+        next
+    }
+    { rec = rec $0 "\n" }
+' "$ACC_FILE" "$PFAM_FULL" > "$SUBSET_FILE"
 
-# Fetch subset
-hmmfetch -f "$PFAM_FULL" "$ACC_FILE" > "$SUBSET_FILE" 2>/dev/null || true
 rm -f "$ACC_FILE"
 
 # Count how many we actually got
-NHITS=$(grep -c "^ACC " "$SUBSET_FILE" || echo 0)
+NHITS=$(grep -c "^ACC " "$SUBSET_FILE" 2>/dev/null || true)
+NHITS="${NHITS:-0}"
 echo "    Extracted $NHITS / ${#DOMAIN_LIST[@]} HMMs"
 
-if (( NHITS == 0 )); then
-    echo "WARNING: No HMMs extracted. Pfam accession format may have changed."
-    echo "         Try: hmmfetch Pfam-A.hmm PF00005 to debug."
+if [ "$NHITS" -eq 0 ]; then
+    echo "WARNING: No HMMs extracted. Check Pfam-A format."
+    echo "         Debug: head -20 $PFAM_FULL"
     exit 1
 fi
 
