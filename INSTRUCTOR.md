@@ -1,147 +1,147 @@
-# Instructor Guide
+# Руководство преподавателя
 
-How to prepare the HPC, stage data, and run this course.
+Как подготовить HPC, разместить данные и провести занятие.
 
-## Overview
+## Обзор
 
-| Phase | What | When |
-|-------|------|------|
-| **Prep** | Install env, download data/dbs | 1-2 days before class |
-| **Validate** | Smoke test the full workflow | Day before class |
-| **Class** | Students run steps 10-50 | During the 2h session |
-| **Reset** | Clean outputs for next cohort | After class |
+| Этап | Действие | Когда |
+|------|----------|-------|
+| **Подготовка** | Установить окружение, загрузить данные/базы | За 1-2 дня до занятия |
+| **Проверка** | Тестовый прогон всего рабочего процесса | За день до занятия |
+| **Занятие** | Студенты выполняют шаги 10-50 | Во время 2-часового занятия |
+| **Сброс** | Очистить результаты для следующей группы | После занятия |
 
-## 1. Disk requirements
+## 1. Требования к дисковому пространству
 
-| Component | Size |
-|-----------|------|
-| Conda environment | ~2 GB |
-| Assembly FASTA | ~4 MB |
-| Teaching proteins (FASTA) | ~200 MB |
-| DIAMOND database (.dmnd) | ~50 MB |
-| Pfam-A full (optional) | ~1.5 GB |
-| Pfam subset (~200 HMMs) | ~5 MB |
-| Per-student outputs | ~50 MB |
-| **Total (subset mode)** | **~2.5 GB** |
-| **Total (full Pfam mode)** | **~4 GB** |
+| Компонент | Размер |
+|-----------|--------|
+| Conda-окружение | ~2 ГБ |
+| FASTA-файл сборки | ~4 МБ |
+| Учебные белки (FASTA) | ~200 МБ |
+| База данных DIAMOND (.dmnd) | ~50 МБ |
+| Pfam-A полная (опционально) | ~1.5 ГБ |
+| Pfam подмножество (~200 HMM) | ~5 МБ |
+| Результаты на студента | ~50 МБ |
+| **Итого (режим подмножества)** | **~2.5 ГБ** |
+| **Итого (полная Pfam)** | **~4 ГБ** |
 
-## 2. Environment setup
+## 2. Настройка окружения
 
 ```bash
-# Option A: micromamba (recommended)
+# Вариант A: micromamba (рекомендуется)
 bash env/micromamba_create.sh
 micromamba activate ngs-annotation
 
-# Option B: conda/mamba
+# Вариант B: conda/mamba
 conda env create -f env/environment.yml
 conda activate ngs-annotation
 ```
 
-Verify the environment:
+Проверьте окружение:
 
 ```bash
 bash scripts/00_check_system.sh
 ```
 
-All items should show `[OK]` except data/db warnings (those come next).
+Все пункты должны показывать `[OK]`, кроме предупреждений о data/db (их мы настроим далее).
 
-## 3. Stage data and databases
+## 3. Размещение данных и баз
 
-Run from the repo root:
+Выполните из корня репозитория:
 
 ```bash
-# Download B. subtilis genome + Swiss-Prot protein subset
+# Загрузка генома B. subtilis + подмножества белков Swiss-Prot
 bash scripts/01_get_data.sh
 
-# Build DIAMOND database
+# Создание базы данных DIAMOND
 bash scripts/02_make_diamond_db.sh
 
-# Download Pfam and create subset for fast in-class runs
+# Загрузка Pfam и создание подмножества для быстрой работы на занятии
 bash scripts/03_get_pfam.sh --subset
 ```
 
-Or all at once:
+Или всё сразу:
 
 ```bash
 make prep-data
 ```
 
-This requires internet access. After completion, all data is in `data/` and the repo can run offline.
+Для этого требуется доступ в интернет. После завершения все данные находятся в `data/`, и репозиторий может работать офлайн.
 
-### Offline class mode
+### Офлайн-режим для занятия
 
-If the HPC has no internet during class:
+Если на HPC нет интернета во время занятия:
 
-1. Run all prep scripts on a machine with internet.
-2. Copy the entire `data/` directory to the HPC:
+1. Запустите все подготовительные скрипты на машине с интернетом.
+2. Скопируйте всю директорию `data/` на HPC:
    ```bash
    rsync -avP data/ hpc:/path/to/blastim/data/
    ```
-3. Students only need the repo + the pre-staged `data/` directory.
+3. Студентам нужен только репозиторий + предварительно подготовленная директория `data/`.
 
-### Optional: Full Pfam
+### Опционально: полная Pfam
 
-For advanced students or if time permits:
+Для продвинутых студентов или если есть время:
 
 ```bash
 bash scripts/03_get_pfam.sh --full
 ```
 
-Then edit `workflow/config.sh`:
+Затем отредактируйте `workflow/config.sh`:
 ```bash
 HMM_DB="data/db/Pfam-A.hmm"
 ```
 
-Warning: hmmscan with full Pfam takes 15-30 min on 8 CPUs for this genome.
+Внимание: hmmscan с полной Pfam занимает 15-30 минут на 8 ядрах для этого генома.
 
-## 4. Smoke test
+## 4. Тестовый прогон
 
-Run the complete workflow once to verify everything works:
+Запустите полный рабочий процесс для проверки:
 
 ```bash
 cp workflow/config.sh.example workflow/config.sh
 bash workflow/run_all.sh
 ```
 
-### Expected timings (8 CPUs, subset Pfam)
+### Ожидаемое время выполнения (8 ядер, подмножество Pfam)
 
-| Step | Expected time |
-|------|---------------|
-| Prokka | 3-8 min |
-| DIAMOND | 1-2 min |
-| hmmscan (subset) | 2-5 min |
-| hmmscan (full Pfam) | 15-30 min |
-| Sanity checks | <1 min |
-| **Total (subset)** | **~10-20 min** |
+| Шаг | Ожидаемое время |
+|-----|-----------------|
+| Prokka | 3-8 мин |
+| DIAMOND | 1-2 мин |
+| hmmscan (подмножество) | 2-5 мин |
+| hmmscan (полная Pfam) | 15-30 мин |
+| Проверки качества | <1 мин |
+| **Итого (подмножество)** | **~10-20 мин** |
 
-### Expected output counts (approximate, B. subtilis 168)
+### Ожидаемые результаты (приблизительно, B. subtilis 168)
 
-| Metric | Expected range |
-|--------|---------------|
-| Predicted CDS | 4,200-4,400 |
-| Predicted tRNA | 80-90 |
-| Predicted rRNA | 10-30 |
-| Proteins with DIAMOND hits | 3,000-4,000 |
-| Proteins with Pfam domains (subset) | 1,500-2,500 |
-| Hypothetical proteins | 200-800 |
+| Метрика | Ожидаемый диапазон |
+|---------|-------------------|
+| Предсказанные CDS | 4 200 - 4 400 |
+| Предсказанные tRNA | 80 - 90 |
+| Предсказанные rRNA | 10 - 30 |
+| Белки с попаданиями DIAMOND | 3 000 - 4 000 |
+| Белки с доменами Pfam (подмнож.) | 1 500 - 2 500 |
+| Гипотетические белки | 200 - 800 |
 
-If numbers differ significantly, check tool versions and database contents.
+Если значения существенно отличаются, проверьте версии инструментов и содержимое баз данных.
 
-## 5. Student workflow
+## 5. Рабочий процесс студентов
 
-Students should:
+Студенты должны:
 
-1. Copy the config file:
+1. Скопировать файл конфигурации:
    ```bash
    cp workflow/config.sh.example workflow/config.sh
    ```
 
-2. Run either the full workflow:
+2. Запустить полный рабочий процесс:
    ```bash
    bash workflow/run_all.sh
    ```
 
-   Or step-by-step (recommended for teaching):
+   Или пошагово (рекомендуется для обучения):
    ```bash
    bash scripts/10_run_prokka.sh
    bash scripts/20_run_diamond.sh
@@ -150,65 +150,65 @@ Students should:
    bash scripts/50_pick_3_genes.sh
    ```
 
-3. Explore outputs using commands from `docs/cheatsheet.md`.
+3. Исследовать результаты с помощью команд из `docs/cheatsheet.md`.
 
-## 6. Plan B: hmmscan too slow
+## 6. План Б: hmmscan работает слишком долго
 
-If hmmscan takes too long during class:
+Если hmmscan занимает слишком много времени на занятии:
 
-### Option A: Limit proteins
+### Вариант A: Ограничить количество белков
 ```bash
 bash scripts/30_run_hmmscan.sh --max-proteins 200
 ```
-This scans only the first 200 proteins. Runs in ~1 min.
+Анализируются только первые 200 белков. Выполняется за ~1 мин.
 
-### Option B: Use subset HMMs only
-Ensure `config.sh` has:
+### Вариант B: Использовать только подмножество HMM
+Убедитесь, что в `config.sh` указано:
 ```bash
 HMM_DB="data/db/pfam_subset.hmm"
 ```
 
-### Option C: Skip hmmscan entirely
-Students can still learn from Prokka + DIAMOND results. Run steps 10, 20, 40, 50 only.
+### Вариант C: Пропустить hmmscan
+Студенты могут учиться на результатах Prokka + DIAMOND. Выполните только шаги 10, 20, 40, 50.
 
-## 7. Reset between cohorts
+## 7. Сброс между группами
 
 ```bash
 make clean
 ```
 
-This removes all `outputs/run_*` directories but preserves databases.
+Это удалит все директории `outputs/run_*`, но сохранит базы данных.
 
-For a full reset (including databases):
+Для полного сброса (включая базы данных):
 ```bash
 make clean-all
 ```
 
-## 8. Suggested class timeline (2 hours)
+## 8. Рекомендуемый план занятия (2 часа)
 
-| Time | Activity |
-|------|----------|
-| 0:00-0:10 | Introduction: what is genome annotation? Evidence ladder concept |
-| 0:10-0:15 | SSH in, activate environment, copy config |
-| 0:15-0:25 | Run Prokka; while waiting: explain GFF format |
-| 0:25-0:35 | Explore Prokka outputs (GFF, FAA, TSV) |
-| 0:35-0:45 | Run DIAMOND; explain BLAST tabular format |
-| 0:45-0:55 | Explore DIAMOND results; discuss identity/E-value |
-| 0:55-1:10 | Run hmmscan; explain HMM profiles and Pfam |
-| 1:10-1:20 | Explore hmmscan results; top domains |
-| 1:20-1:35 | Run sanity checks; discuss evidence ladder |
-| 1:35-1:50 | Pick 3 genes exercise; class discussion |
-| 1:50-2:00 | Wrap-up: real-world annotation, limitations, further resources |
+| Время | Активность |
+|-------|-----------|
+| 0:00-0:10 | Введение: что такое аннотация генома? Концепция лестницы доказательств |
+| 0:10-0:15 | Подключение по SSH, активация окружения, копирование конфигурации |
+| 0:15-0:25 | Запуск Prokka; пока ждём: объяснение формата GFF |
+| 0:25-0:35 | Изучение результатов Prokka (GFF, FAA, TSV) |
+| 0:35-0:45 | Запуск DIAMOND; объяснение табличного формата BLAST |
+| 0:45-0:55 | Изучение результатов DIAMOND; обсуждение идентичности/E-value |
+| 0:55-1:10 | Запуск hmmscan; объяснение HMM-профилей и Pfam |
+| 1:10-1:20 | Изучение результатов hmmscan; популярные домены |
+| 1:20-1:35 | Запуск проверок качества; обсуждение лестницы доказательств |
+| 1:35-1:50 | Упражнение «Выбери 3 гена»; обсуждение в группе |
+| 1:50-2:00 | Итоги: аннотация в реальных проектах, ограничения, дополнительные ресурсы |
 
-## 9. Licensing notes
+## 9. Примечания о лицензиях
 
-- **Swiss-Prot**: Downloaded from UniProt (CC BY 4.0). Not committed to the repo.
-- **Pfam**: Downloaded from EBI/InterPro. Not committed to the repo.
-- **B. subtilis 168 genome**: NCBI RefSeq, public domain.
-- **Course materials**: MIT license.
+- **Swiss-Prot**: Загружается с UniProt (CC BY 4.0). Не коммитится в репозиторий.
+- **Pfam**: Загружается с EBI/InterPro. Не коммитится в репозиторий.
+- **Геном B. subtilis 168**: NCBI RefSeq, общественное достояние.
+- **Материалы курса**: лицензия MIT.
 
-Do not commit full databases to the git repository. They are gitignored.
+Не коммитьте полные базы данных в git-репозиторий. Они исключены через .gitignore.
 
-## 10. Troubleshooting
+## 10. Устранение неполадок
 
-See `docs/troubleshooting.md` for common issues and fixes.
+См. `docs/troubleshooting.md` для описания частых проблем и их решений.

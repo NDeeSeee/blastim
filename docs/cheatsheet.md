@@ -1,28 +1,28 @@
-# Command Cheatsheet
+# Шпаргалка по командам
 
-All commands to copy/paste during the class. Run from the repo root.
+Все команды для копирования и вставки во время занятия. Выполняйте из корня репозитория.
 
-## Setup
+## Настройка
 
 ```bash
-# Activate environment
+# Активация окружения
 micromamba activate ngs-annotation
-# or: conda activate ngs-annotation
+# или: conda activate ngs-annotation
 
-# Copy config
+# Копирование конфигурации
 cp workflow/config.sh.example workflow/config.sh
 
-# Check system
+# Проверка системы
 bash scripts/00_check_system.sh
 ```
 
-## Run the workflow
+## Запуск рабочего процесса
 
 ```bash
-# All at once
+# Всё сразу
 bash workflow/run_all.sh
 
-# Or step by step
+# Или пошагово
 bash scripts/10_run_prokka.sh
 bash scripts/20_run_diamond.sh
 bash scripts/30_run_hmmscan.sh
@@ -30,95 +30,95 @@ bash scripts/40_sanity_checks.sh
 bash scripts/50_pick_3_genes.sh
 ```
 
-## Explore Prokka outputs
+## Изучение результатов Prokka
 
 ```bash
-# Find your output directory
+# Найти директорию результатов
 OUTDIR=$(ls -td outputs/run_* | head -1)
 
-# View summary
+# Посмотреть сводку
 cat $OUTDIR/prokka/ANNOT.txt
 
-# Count features by type
+# Подсчитать признаки по типам
 grep -v "^#" $OUTDIR/prokka/ANNOT.gff | awk -F'\t' '{print $3}' | sort | uniq -c | sort -rn
 
-# Look at the first 5 CDS entries in GFF
+# Посмотреть первые 5 записей CDS в GFF
 grep "CDS" $OUTDIR/prokka/ANNOT.gff | head -5
 
-# View feature table
+# Посмотреть таблицу признаков
 head -20 $OUTDIR/prokka/ANNOT.tsv
 
-# Protein stats
+# Статистика по белкам
 seqkit stats $OUTDIR/prokka/ANNOT.faa
 
-# Look at first 3 protein sequences
+# Посмотреть первые 3 белковые последовательности
 seqkit head -n 3 $OUTDIR/prokka/ANNOT.faa
 
-# Find a specific protein by keyword
+# Найти конкретный белок по ключевому слову
 grep "ribosomal" $OUTDIR/prokka/ANNOT.tsv
 ```
 
-## Explore DIAMOND results
+## Изучение результатов DIAMOND
 
 ```bash
-# View first 10 hits
+# Посмотреть первые 10 попаданий
 head -10 $OUTDIR/diamond/blastp_results.tsv | column -t
 
-# Count proteins with hits
+# Подсчитать белки с попаданиями
 cut -f1 $OUTDIR/diamond/blastp_results.tsv | sort -u | wc -l
 
-# Best hit per protein (highest bitscore)
+# Лучшее попадание для каждого белка (наибольший bitscore)
 sort -k1,1 -k12,12rn $OUTDIR/diamond/blastp_results.tsv | sort -k1,1 -u | head -10 | column -t
 
-# Distribution of percent identity (best hits)
+# Распределение процента идентичности (лучшие попадания)
 sort -k1,1 -k12,12rn $OUTDIR/diamond/blastp_results.tsv | sort -k1,1 -u | \
   awk -F'\t' '{printf "%d\n", $3}' | sort -n | uniq -c | sort -k2 -n
 
-# Search for a specific protein
+# Поиск конкретного белка
 grep "ANNOT_00001" $OUTDIR/diamond/blastp_results.tsv | column -t
 
-# Find hits to a keyword (e.g., "kinase")
+# Найти попадания по ключевому слову (например, «kinase»)
 grep -i "kinase" $OUTDIR/diamond/blastp_results.tsv | head -5 | column -t
 ```
 
-## Explore hmmscan results
+## Изучение результатов hmmscan
 
 ```bash
-# View first 10 domain hits (skip comment lines)
+# Посмотреть первые 10 найденных доменов (пропустить строки комментариев)
 grep -v "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt | head -10
 
-# Count total domain hits
+# Подсчитать общее число найденных доменов
 grep -cv "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt
 
-# Top 20 most common domains
+# Топ-20 наиболее частых доменов
 grep -v "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt | awk '{print $1}' | sort | uniq -c | sort -rn | head -20
 
-# Proteins with the most domains
+# Белки с наибольшим числом доменов
 grep -v "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt | awk '{print $4}' | sort | uniq -c | sort -rn | head -10
 
-# Find hits for a specific protein
+# Найти попадания для конкретного белка
 grep "ANNOT_00042" $OUTDIR/hmmer/hmmscan_domtblout.txt
 
-# Find a specific domain (e.g., ABC transporter)
+# Найти конкретный домен (например, ABC-транспортер)
 grep -i "ABC" $OUTDIR/hmmer/hmmscan_domtblout.txt | head -5
 ```
 
-## Combined analysis
+## Комбинированный анализ
 
 ```bash
-# Proteins with DIAMOND hits but no Pfam domains
+# Белки с попаданиями DIAMOND, но без доменов Pfam
 comm -23 \
   <(cut -f1 $OUTDIR/diamond/blastp_results.tsv | sort -u) \
   <(grep -v "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt | awk '{print $4}' | sort -u) \
   | head -10
 
-# Proteins with Pfam domains but no DIAMOND hits
+# Белки с доменами Pfam, но без попаданий DIAMOND
 comm -13 \
   <(cut -f1 $OUTDIR/diamond/blastp_results.tsv | sort -u) \
   <(grep -v "^#" $OUTDIR/hmmer/hmmscan_domtblout.txt | awk '{print $4}' | sort -u) \
   | head -10
 
-# Proteins with NO annotation at all
+# Белки БЕЗ какой-либо аннотации
 comm -23 \
   <(grep "^>" $OUTDIR/prokka/ANNOT.faa | sed 's/>//' | awk '{print $1}' | sort) \
   <(cat <(cut -f1 $OUTDIR/diamond/blastp_results.tsv) \
@@ -126,21 +126,21 @@ comm -23 \
   | wc -l
 ```
 
-## Useful seqkit commands
+## Полезные команды seqkit
 
 ```bash
-# Length distribution of proteins
+# Распределение длин белков
 seqkit fx2tab -l $OUTDIR/prokka/ANNOT.faa | awk '{print $NF}' | sort -n | tail -5
 
-# Find the longest protein
+# Найти самый длинный белок
 seqkit fx2tab -l $OUTDIR/prokka/ANNOT.faa | sort -t$'\t' -k2 -rn | head -1
 
-# Find the shortest protein
+# Найти самый короткий белок
 seqkit fx2tab -l $OUTDIR/prokka/ANNOT.faa | sort -t$'\t' -k2 -n | head -1
 
-# Extract a specific protein by ID
+# Извлечь конкретный белок по ID
 seqkit grep -p "ANNOT_00042" $OUTDIR/prokka/ANNOT.faa
 
-# Count proteins shorter than 100 aa
+# Подсчитать белки короче 100 аминокислот
 seqkit fx2tab -l $OUTDIR/prokka/ANNOT.faa | awk '$NF < 100' | wc -l
 ```

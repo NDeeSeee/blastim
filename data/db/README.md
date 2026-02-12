@@ -1,25 +1,25 @@
-# Database directory
+# Директория баз данных
 
-This directory stores databases used during the course.
-Files here are **not tracked by git** (too large).
+В этой директории хранятся базы данных, используемые на занятии.
+Файлы здесь **не отслеживаются git** (слишком большие).
 
-## Contents after instructor prep
+## Содержимое после подготовки преподавателем
 
-| File | Built by | Description |
-|------|----------|-------------|
-| `teaching_proteins.fasta` | `01_get_data.sh` | Small protein set (~100k seqs) |
-| `teaching_proteins.dmnd` | `02_make_diamond_db.sh` | DIAMOND index of above |
-| `pfam_subset.hmm` | `03_get_pfam.sh --subset` | ~200 HMM profiles for fast hmmscan |
-| `pfam_subset.hmm.h3{m,i,f,p}` | `03_get_pfam.sh --subset` | hmmpress index files |
-| `Pfam-A.hmm` (optional) | `03_get_pfam.sh --full` | Full Pfam-A (~20k profiles) |
+| Файл                          | Создаётся скриптом          | Описание                                   |
+|-------------------------------|-----------------------------|--------------------------------------------|
+| `teaching_proteins.fasta`     | `01_get_data.sh`            | Небольшой набор белков (~100 тыс. последовательностей) |
+| `teaching_proteins.dmnd`      | `02_make_diamond_db.sh`     | Индекс DIAMOND для набора белков           |
+| `pfam_subset.hmm`             | `03_get_pfam.sh --subset`   | ~200 HMM-профилей для быстрого hmmscan     |
+| `pfam_subset.hmm.h3{m,i,f,p}` | `03_get_pfam.sh --subset`  | Индексные файлы hmmpress                   |
+| `Pfam-A.hmm` (опционально)   | `03_get_pfam.sh --full`     | Полная Pfam-A (~20 тыс. профилей)          |
 
-## How to populate
+## Как заполнить
 
-Run the instructor prep scripts from the repo root:
+Запустите скрипты подготовки из корня репозитория:
 
 ```bash
 bash scripts/01_get_data.sh
 bash scripts/02_make_diamond_db.sh
-bash scripts/03_get_pfam.sh --subset   # fast class mode
-# bash scripts/03_get_pfam.sh --full   # full Pfam (optional, slower)
+bash scripts/03_get_pfam.sh --subset   # быстрый режим для занятия
+# bash scripts/03_get_pfam.sh --full   # полная Pfam (опционально, медленнее)
 ```

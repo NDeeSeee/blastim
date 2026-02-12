@@ -23,8 +23,10 @@ DIAMOND_DB="${DB_DIR}/teaching_proteins"
 HMM_DB="${DB_DIR}/pfam_subset.hmm"
 # HMM_DB="${DB_DIR}/Pfam-A.hmm"    # uncomment for full Pfam
 
-# Output directory (auto-generated with timestamp by default)
-OUTDIR="outputs/run_$(date +%Y%m%d_%H%M%S)"
+# Output directory
+# Set a fixed name so all scripts share the same directory.
+# run_all.sh will auto-set a timestamped name if OUTDIR is not already exported.
+OUTDIR="${OUTDIR:-outputs/run_latest}"
 
 # hmmscan Plan-B: limit to first N proteins (0 = no limit)
 MAX_PROTEINS=0

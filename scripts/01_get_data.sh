@@ -77,9 +77,8 @@ else
         wget -q --show-progress -O "$SPROT_GZ" "$SPROT_URL"
     fi
 
-    echo "    Extracting bacterial proteins (OS=Bacteria or common bacterial taxa)..."
-    # Extract a subset: first 100,000 proteins for a manageable teaching db
-    # We grep for common bacterial organisms to enrich for relevant hits
+    echo "    Extracting first 100,000 proteins for teaching database..."
+    # Take the first 100k proteins from Swiss-Prot for a manageable teaching db
     zcat "$SPROT_GZ" \
         | awk 'BEGIN{n=0} /^>/{n++; if(n>100000) exit} {print}' \
         > "$PROT_FILE"

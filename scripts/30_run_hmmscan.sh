@@ -27,28 +27,20 @@ fi
 source "$CONFIG"
 
 # ── Parse command-line overrides ──
-CLI_MAX_PROTEINS=""
+NEXT_IS_MAXPROT=false
 for arg in "$@"; do
+    if $NEXT_IS_MAXPROT; then
+        MAX_PROTEINS="$arg"
+        NEXT_IS_MAXPROT=false
+        continue
+    fi
     case "$arg" in
-        --subset-only) HMM_DB="${REPO_ROOT}/data/db/pfam_subset.hmm" ;;
-        --max-proteins)
-            # next arg will be the number; handled below
-            ;;
-        [0-9]*)
-            CLI_MAX_PROTEINS="$arg"
-            ;;
-        *)
-            if [[ "$arg" == --max-proteins=* ]]; then
-                CLI_MAX_PROTEINS="${arg#*=}"
-            fi
-            ;;
+        --subset-only) HMM_DB="data/db/pfam_subset.hmm" ;;
+        --max-proteins) NEXT_IS_MAXPROT=true ;;
+        --max-proteins=*) MAX_PROTEINS="${arg#*=}" ;;
+        *) echo "Unknown argument: $arg"; exit 1 ;;
     esac
 done
-
-# Apply CLI override if given
-if [ -n "$CLI_MAX_PROTEINS" ]; then
-    MAX_PROTEINS="$CLI_MAX_PROTEINS"
-fi
 
 # ── Resolve paths ──
 OUTDIR="${REPO_ROOT}/${OUTDIR}"

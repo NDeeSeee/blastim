@@ -1,223 +1,223 @@
-# Troubleshooting
+# Устранение неполадок
 
-Common issues and fixes.
+Частые проблемы и их решения.
 
-## Environment
+## Окружение
 
-### "command not found: prokka" (or any tool)
+### «command not found: prokka» (или любой инструмент)
 
-**Cause**: The conda environment is not activated.
+**Причина**: Conda-окружение не активировано.
 
-**Fix**:
+**Решение**:
 ```bash
 micromamba activate ngs-annotation
-# or
+# или
 conda activate ngs-annotation
 ```
 
-If the environment does not exist:
+Если окружение не существует:
 ```bash
 bash env/micromamba_create.sh
 ```
 
-### "conda: command not found"
+### «conda: command not found»
 
-**Cause**: No package manager installed.
+**Причина**: Менеджер пакетов не установлен.
 
-**Fix**: Install micromamba:
+**Решение**: Установите micromamba:
 ```bash
 "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 ```
 
-Then restart your shell and try again.
+Затем перезапустите шелл и попробуйте снова.
 
-### Environment creation fails with "solving environment" forever
+### Создание окружения зависает на «solving environment»
 
-**Cause**: Conda solver is slow.
+**Причина**: Solver conda работает медленно.
 
-**Fix**: Use micromamba (preferred) or mamba instead of conda:
+**Решение**: Используйте micromamba (предпочтительно) или mamba вместо conda:
 ```bash
-# Install mamba into base
+# Установить mamba в базовое окружение
 conda install -n base -c conda-forge mamba
 mamba env create -f env/environment.yml
 ```
 
-### "PackagesNotFoundError" during env creation
+### «PackagesNotFoundError» при создании окружения
 
-**Cause**: Channel ordering issue or outdated channel data.
+**Причина**: Проблема с порядком каналов или устаревшие данные каналов.
 
-**Fix**:
+**Решение**:
 ```bash
-# Update channel data
+# Обновить данные каналов
 conda update --all -n base
-# Or try with explicit channels
+# Или попробовать с явным указанием каналов
 micromamba create -n ngs-annotation -c conda-forge -c bioconda -c defaults prokka seqkit diamond hmmer csvkit pigz wget curl
 ```
 
-## Data and databases
+## Данные и базы данных
 
-### "Assembly not found"
+### «Assembly not found»
 
-**Fix**: Run the data download script:
+**Решение**: Запустите скрипт загрузки данных:
 ```bash
 bash scripts/01_get_data.sh
 ```
 
-Or check that the assembly is at `data/input/assembly.fasta`.
+Или проверьте, что сборка находится в `data/input/assembly.fasta`.
 
-### "DIAMOND database not found"
+### «DIAMOND database not found»
 
-**Fix**:
+**Решение**:
 ```bash
-bash scripts/01_get_data.sh    # get proteins first
+bash scripts/01_get_data.sh    # сначала загрузить белки
 bash scripts/02_make_diamond_db.sh
 ```
 
-### "HMM database not pressed (missing .h3m)"
+### «HMM database not pressed (missing .h3m)»
 
-**Cause**: `hmmpress` was not run or failed.
+**Причина**: `hmmpress` не был запущен или завершился с ошибкой.
 
-**Fix**:
+**Решение**:
 ```bash
 hmmpress -f data/db/pfam_subset.hmm
 ```
 
-### wget fails (no internet)
+### wget не работает (нет интернета)
 
-**Cause**: HPC has no outbound internet.
+**Причина**: На HPC нет исходящего доступа в интернет.
 
-**Fix**: Download on a machine with internet and transfer:
+**Решение**: Загрузите на машине с интернетом и перенесите:
 ```bash
-# On machine with internet
+# На машине с интернетом
 bash scripts/01_get_data.sh
 bash scripts/02_make_diamond_db.sh
 bash scripts/03_get_pfam.sh --subset
 
-# Transfer to HPC
+# Перенос на HPC
 rsync -avP data/ hpc:/path/to/blastim/data/
 ```
 
-### Pfam download fails ("404 Not Found")
+### Загрузка Pfam не удалась («404 Not Found»)
 
-**Cause**: Pfam URL may have changed (EBI reorganizes periodically).
+**Причина**: URL Pfam мог измениться (EBI периодически реорганизует файлы).
 
-**Fix**: Check the current URL at https://www.ebi.ac.uk/interpro/download/Pfam/ and update the URL in `scripts/03_get_pfam.sh`.
+**Решение**: Проверьте актуальный URL на https://www.ebi.ac.uk/interpro/download/Pfam/ и обновите URL в `scripts/03_get_pfam.sh`.
 
-## Running scripts
+## Запуск скриптов
 
-### "Config not found"
+### «Config not found»
 
-**Fix**:
+**Решение**:
 ```bash
 cp workflow/config.sh.example workflow/config.sh
 ```
 
-### "Permission denied" when running scripts
+### «Permission denied» при запуске скриптов
 
-**Fix**:
+**Решение**:
 ```bash
 chmod +x scripts/*.sh workflow/*.sh
 ```
 
-Or run with `bash`:
+Или запускайте через `bash`:
 ```bash
 bash scripts/10_run_prokka.sh
 ```
 
-### Prokka: "Could not run prodigal"
+### Prokka: «Could not run prodigal»
 
-**Cause**: Prokka dependency issue.
+**Причина**: Проблема с зависимостью Prokka.
 
-**Fix**:
+**Решение**:
 ```bash
-# Check prodigal is available
+# Проверить наличие prodigal
 which prodigal
 prodigal -v
 
-# If missing, install it
+# Если отсутствует, установить
 micromamba install -n ngs-annotation -c bioconda prodigal
 ```
 
-### Prokka: "tbl2asn is missing or too old"
+### Prokka: «tbl2asn is missing or too old»
 
-**Cause**: Common Prokka issue with newer systems.
+**Причина**: Распространённая проблема Prokka на новых системах.
 
-**Fix**: This is a warning, not an error. Prokka still produces GFF/FAA/FFN correctly. The .gbk and .sqn files may be affected but are not needed for this course.
+**Решение**: Это предупреждение, а не ошибка. Prokka всё равно корректно создаёт GFF/FAA/FFN. Файлы .gbk и .sqn могут быть затронуты, но для данного курса они не нужны.
 
-### DIAMOND: "Database was made with incompatible version"
+### DIAMOND: «Database was made with incompatible version»
 
-**Cause**: DIAMOND version mismatch between db build and search.
+**Причина**: Несоответствие версий DIAMOND при построении базы и поиске.
 
-**Fix**: Rebuild the database:
+**Решение**: Пересоберите базу данных:
 ```bash
 rm data/db/teaching_proteins.dmnd
 bash scripts/02_make_diamond_db.sh
 ```
 
-### hmmscan runs forever
+### hmmscan работает бесконечно
 
-**Cause**: Using full Pfam-A (~20k profiles) instead of the subset.
+**Причина**: Используется полная Pfam-A (~20 тыс. профилей) вместо подмножества.
 
-**Fix**: Switch to subset mode:
+**Решение**: Переключитесь на режим подмножества:
 ```bash
-# Edit workflow/config.sh
+# Отредактируйте workflow/config.sh
 HMM_DB="data/db/pfam_subset.hmm"
 
-# Or limit proteins
+# Или ограничьте число белков
 bash scripts/30_run_hmmscan.sh --max-proteins 200
 ```
 
-### hmmscan: "No such file or directory" for .h3m
+### hmmscan: «No such file or directory» для .h3m
 
-**Cause**: The HMM database was not pressed.
+**Причина**: База HMM не проиндексирована.
 
-**Fix**:
+**Решение**:
 ```bash
 hmmpress -f data/db/pfam_subset.hmm
 ```
 
-### "Disk quota exceeded"
+### «Disk quota exceeded»
 
-**Cause**: HPC disk quota reached.
+**Причина**: Исчерпана квота диска на HPC.
 
-**Fix**:
+**Решение**:
 ```bash
-# Check disk usage
+# Проверить использование диска
 du -sh data/ outputs/
 
-# Clean old outputs
+# Очистить старые результаты
 make clean
 
-# Check quota
-quota -s  # or: df -h .
+# Проверить квоту
+quota -s  # или: df -h .
 ```
 
-## Output issues
+## Проблемы с результатами
 
-### 0 DIAMOND hits
+### 0 попаданий DIAMOND
 
-**Possible causes**:
-1. Database is empty or corrupt: `diamond dbinfo --db data/db/teaching_proteins`
-2. Query file is empty: `wc -l outputs/run_*/prokka/ANNOT.faa`
-3. E-value threshold too strict (unlikely with default 1e-5)
+**Возможные причины**:
+1. База данных пустая или повреждена: `diamond dbinfo --db data/db/teaching_proteins`
+2. Файл запросов пустой: `wc -l outputs/run_*/prokka/ANNOT.faa`
+3. Порог E-value слишком строгий (маловероятно при значении по умолчанию 1e-5)
 
-### 0 hmmscan hits
+### 0 попаданий hmmscan
 
-**Possible causes**:
-1. HMM database has 0 profiles: `grep -c "^ACC" data/db/pfam_subset.hmm`
-2. Database not pressed: check for `.h3m` files
-3. E-value too strict (unlikely with defaults)
+**Возможные причины**:
+1. В базе HMM 0 профилей: `grep -c "^ACC" data/db/pfam_subset.hmm`
+2. База не проиндексирована: проверьте наличие файлов `.h3m`
+3. E-value слишком строгий (маловероятно при настройках по умолчанию)
 
-### Sanity checks show unexpected numbers
+### Проверки качества показывают неожиданные числа
 
-Compare your results with `docs/expected_outputs.md`. If numbers are off by more than 50%, check:
-1. Is the correct assembly being used?
-2. Are databases populated?
-3. Are tool versions roughly matching the environment.yml specs?
+Сравните ваши результаты с `docs/expected_outputs.md`. Если значения отличаются более чем на 50%, проверьте:
+1. Используется ли правильный файл сборки?
+2. Заполнены ли базы данных?
+3. Соответствуют ли версии инструментов спецификациям в environment.yml?
 
-## General tips
+## Общие советы
 
-- Always activate the environment before running scripts.
-- Run `bash scripts/00_check_system.sh` to diagnose most issues.
-- Check the script output messages -- they indicate what to run next.
-- If a step fails, fix the issue and re-run that step only (not the whole workflow).
+- Всегда активируйте окружение перед запуском скриптов.
+- Запустите `bash scripts/00_check_system.sh` для диагностики большинства проблем.
+- Читайте сообщения скриптов -- они указывают, что запускать дальше.
+- Если шаг завершился с ошибкой, исправьте проблему и перезапустите только этот шаг (не весь рабочий процесс).

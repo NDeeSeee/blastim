@@ -20,6 +20,9 @@ if [ ! -f "$CONFIG" ]; then
     exit 1
 fi
 
+# Set a timestamped OUTDIR and export it so all child scripts share it.
+export OUTDIR="outputs/run_$(date +%Y%m%d_%H%M%S)"
+
 # Forward all arguments to hmmscan step
 HMMSCAN_ARGS=("$@")
 
@@ -27,8 +30,9 @@ echo "╔═══════════════════════�
 echo "║  Prokaryotic Genome Annotation Workflow        ║"
 echo "╚════════════════════════════════════════════════╝"
 echo ""
-echo "Config: $CONFIG"
-echo "Start:  $(date)"
+echo "Config:  $CONFIG"
+echo "Output:  $OUTDIR"
+echo "Start:   $(date)"
 echo ""
 
 TOTAL_START=$(date +%s)
@@ -63,18 +67,17 @@ TOTAL_ELAPSED=$(( TOTAL_END - TOTAL_START ))
 MINUTES=$(( TOTAL_ELAPSED / 60 ))
 SECONDS_R=$(( TOTAL_ELAPSED % 60 ))
 
+source "$CONFIG"
+
 echo "╔════════════════════════════════════════════════╗"
 echo "║  Workflow complete!                            ║"
-echo "║  Total time: ${MINUTES}m ${SECONDS_R}s                          ║"
+echo "║  Total time: ${MINUTES}m ${SECONDS_R}s"
 echo "╚════════════════════════════════════════════════╝"
 echo ""
-
-# Show output directory
-source "$CONFIG"
 echo "Output directory: ${REPO_ROOT}/${OUTDIR}"
 echo ""
 echo "Key files to explore:"
-echo "  prokka/${PROKKA_PREFIX}.gff         - Annotated genome (GFF3)"
-echo "  prokka/${PROKKA_PREFIX}.faa         - Predicted proteins (FASTA)"
-echo "  diamond/blastp_results.tsv   - Homology search results"
-echo "  hmmer/hmmscan_domtblout.txt  - Domain search results"
+echo "  ${OUTDIR}/prokka/${PROKKA_PREFIX}.gff         - Annotated genome (GFF3)"
+echo "  ${OUTDIR}/prokka/${PROKKA_PREFIX}.faa         - Predicted proteins (FASTA)"
+echo "  ${OUTDIR}/diamond/blastp_results.tsv   - Homology search results"
+echo "  ${OUTDIR}/hmmer/hmmscan_domtblout.txt  - Domain search results"
