@@ -1,23 +1,23 @@
-# Databases (too large for git)
-data/db/*.dmnd
-data/db/*.h3m
-data/db/*.h3i
-data/db/*.h3f
-data/db/*.h3p
-data/db/*.hmm
-data/db/*.hmm.gz
-data/db/*.fasta
-data/db/*.fasta.gz
-data/db/*.fa
-data/db/*.fa.gz
-data/db/Pfam-A*
-data/db/pfam_subset*
+# Databases (too large for git) — per lecture
+*/data/db/*.dmnd
+*/data/db/*.h3m
+*/data/db/*.h3i
+*/data/db/*.h3f
+*/data/db/*.h3p
+*/data/db/*.hmm
+*/data/db/*.hmm.gz
+*/data/db/*.fasta
+*/data/db/*.fasta.gz
+*/data/db/*.fa
+*/data/db/*.fa.gz
+*/data/db/Pfam-A*
+*/data/db/pfam_subset*
 
-# Outputs
-outputs/
+# Outputs — per lecture
+*/outputs/
 
-# User config
-workflow/config.sh
+# User config — per lecture
+*/workflow/config.sh
 
 # Logs
 *.log
@@ -37,6 +37,5 @@ __pycache__/
 .vscode/
 .idea/
 
-
-#Ignore vscode AI rules
+# Ignore vscode AI rules
 .github/instructions/codacy.instructions.md

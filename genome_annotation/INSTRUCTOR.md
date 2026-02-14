@@ -75,7 +75,7 @@ make prep-data
 1. Запустите все подготовительные скрипты на машине с интернетом.
 2. Скопируйте всю директорию `data/` на HPC:
    ```bash
-   rsync -avP data/ hpc:/path/to/blastim/data/
+   rsync -avP data/ hpc:/path/to/blastim_ngs/genome_annotation/data/
    ```
 3. Студентам нужен только репозиторий + предварительно подготовленная директория `data/`.
 
