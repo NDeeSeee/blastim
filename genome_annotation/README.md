@@ -95,9 +95,10 @@ genome_annotation/
 │   └── db/                ← Базы данных DIAMOND + Pfam
 ├── outputs/               ← Создаётся при запуске
 └── docs/
-    ├── cheatsheet.md      ← Все команды для копирования
+    ├── cheatsheet.md        ← Все команды для копирования
     ├── expected_outputs.md
-    └── troubleshooting.md
+    ├── troubleshooting.md
+    └── advanced_reading.md  ← Углублённое чтение (статьи, туториалы)
 ```
 
 ## Организм
