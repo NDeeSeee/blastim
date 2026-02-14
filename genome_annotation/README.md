@@ -94,11 +94,16 @@ genome_annotation/
 │   ├── input/             ← FASTA-файл сборки
 │   └── db/                ← Базы данных DIAMOND + Pfam
 ├── outputs/               ← Создаётся при запуске
+├── homework/
+│   ├── TEMPLATE_summary.md  ← Шаблон для Части 1
+│   ├── TEMPLATE_case.md     ← Шаблон для Части 2
+│   └── submissions/         ← Папки студентов (через fork/PR)
 └── docs/
     ├── cheatsheet.md        ← Все команды для копирования
     ├── expected_outputs.md
     ├── troubleshooting.md
-    └── advanced_reading.md  ← Углублённое чтение (статьи, туториалы)
+    ├── advanced_reading.md  ← Углублённое чтение (статьи, туториалы)
+    └── homework_01.md       ← Домашнее задание 1
 ```
 
 ## Организм
