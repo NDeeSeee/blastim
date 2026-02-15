@@ -83,8 +83,6 @@ else
         | awk 'BEGIN{n=0} /^>/{n++; if(n>100000) exit} {print}' \
         > "$PROT_FILE"
 
-    echo "    Cleaning up full Swiss-Prot download..."
-    rm -f "$SPROT_GZ"
     echo "    Done: $(du -h "$PROT_FILE" | cut -f1)"
 fi
 

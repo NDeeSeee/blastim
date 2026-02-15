@@ -24,6 +24,7 @@ blastim_ngs/
 │   ├── scripts/
 │   ├── workflow/
 │   ├── data/
+│   ├── homework/
 │   └── docs/
 └── variant_calling/           ← Практикум: поиск вариантов
     └── README.md

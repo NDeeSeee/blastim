@@ -86,7 +86,9 @@ genome_annotation/
 │   ├── 20_run_diamond.sh  ← Поиск по гомологии
 │   ├── 30_run_hmmscan.sh  ← Поиск доменов
 │   ├── 40_sanity_checks.sh
-│   └── 50_pick_3_genes.sh ← Примеры для обсуждения
+│   ├── 50_pick_3_genes.sh ← Примеры для обсуждения
+│   ├── 90_homework_assign_genes.py ← Назначение генов для ДЗ
+│   └── 91_homework_check.py        ← Проверка ответов ДЗ
 ├── workflow/
 │   ├── config.sh.example  ← Скопируйте в config.sh
 │   └── run_all.sh         ← Запуск всего одной командой

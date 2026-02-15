@@ -94,7 +94,7 @@ bash scripts/02_make_diamond_db.sh
 bash scripts/03_get_pfam.sh --subset
 
 # Перенос на HPC
-rsync -avP data/ hpc:/path/to/blastim/data/
+rsync -avP data/ hpc:/path/to/blastim_ngs/genome_annotation/data/
 ```
 
 ### Загрузка Pfam не удалась («404 Not Found»)
