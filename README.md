@@ -16,6 +16,10 @@ blastim_ngs/
 ├── README.md                  ← Вы здесь
 ├── LICENSE
 ├── shared/                    ← Общие ресурсы курса
+│   ├── README.md
+│   ├── COURSE_STRUCTURE.md    ← Обзор курса и практикумов
+│   ├── HPC_SETUP.md           ← Настройка HPC (для преподавателей)
+│   └── TROUBLESHOOTING_COMMON.md ← Общие проблемы и решения
 ├── genome_annotation/         ← Практикум: аннотация генома
 │   ├── README.md
 │   ├── INSTRUCTOR.md
@@ -60,6 +64,14 @@ cd genome_annotation
 - Conda / Micromamba для управления окружениями
 
 Подробные требования описаны в README каждого практикума.
+
+## Для преподавателей и администраторов
+
+- **[shared/HPC_SETUP.md](shared/HPC_SETUP.md)** — Подробное руководство по настройке HPC-системы
+- **[shared/COURSE_STRUCTURE.md](shared/COURSE_STRUCTURE.md)** — Обзор структуры курса
+- **[shared/TROUBLESHOOTING_COMMON.md](shared/TROUBLESHOOTING_COMMON.md)** — Решения частых проблем
+
+Для каждого практикума см. файл `INSTRUCTOR.md` в соответствующей папке.
 
 ## Лицензия
 
