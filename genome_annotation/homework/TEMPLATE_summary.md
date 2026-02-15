@@ -2,9 +2,11 @@
 
 **Student:** `<GITHUB_USER>`
 **Run dir:** `outputs/<run_...>/`
-**Assigned genes file:** `genes_<GITHUB_USER>.txt`
+**Assigned genes file:** `genes_<GITHUB_USER>.txt` (12 генов)
 
-> Правило: на каждый ген 4 строки: Prokka -> DIAMOND -> Pfam -> вывод.
+> **Правило:** На каждый ген 4 строки: Prokka → DIAMOND → Pfam → вывод.
+>
+> **Минимум:** По 1 гену в каждом из 6 блоков (всего 6 генов). Можете добавить больше.
 
 ---
 
@@ -12,11 +14,11 @@
 
 ### Gene: `<ID>`
 - **Prokka product:**
-- **DIAMOND** (pident / evalue / length / stitle):
-- **Pfam** (domain name + evalue):
+- **DIAMOND:** pident=...%, evalue=..., coverage=...%, hit: ...
+- **Pfam:** ... (e=...)
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально — удалите если используете 1 ген на блок)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**
@@ -32,7 +34,7 @@
 - **Pfam:**
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**
@@ -48,7 +50,7 @@
 - **Pfam:**
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**
@@ -64,7 +66,7 @@
 - **Pfam:**
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**
@@ -80,7 +82,7 @@
 - **Pfam:**
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**
@@ -96,7 +98,7 @@
 - **Pfam:**
 - **Вывод:**
 
-### Gene: `<ID>`
+### Gene: `<ID>` (опционально)
 - **Prokka product:**
 - **DIAMOND:**
 - **Pfam:**

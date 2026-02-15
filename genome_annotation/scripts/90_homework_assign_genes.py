@@ -56,7 +56,7 @@ def main() -> None:
         required=True,
         help="Output file for the gene list (e.g. homework/submissions/<user>/genes_<user>.txt)",
     )
-    ap.add_argument("--n", type=int, default=8, help="Number of genes to assign")
+    ap.add_argument("--n", type=int, default=12, help="Number of genes to assign (default: 12)")
     args = ap.parse_args()
 
     user = os.environ.get("GITHUB_USER", "").strip()
