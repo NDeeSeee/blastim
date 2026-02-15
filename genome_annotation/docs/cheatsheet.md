@@ -16,6 +16,20 @@ cp workflow/config.sh.example workflow/config.sh
 bash scripts/00_check_system.sh
 ```
 
+## Подготовка данных
+
+```bash
+# Загрузка референса B. subtilis 168, создание DIAMOND и Pfam баз
+# ВАЖНО: этот шаг выполняет преподаватель один раз перед практикумом
+bash scripts/01_get_data.sh
+bash scripts/02_make_diamond_db.sh
+bash scripts/03_get_pfam.sh
+
+# Проверка что данные скачаны
+ls -lh data/input/assembly.fasta
+ls -lh data/db/
+```
+
 ## Запуск рабочего процесса
 
 ```bash

@@ -13,6 +13,18 @@
 */data/db/Pfam-A*
 */data/db/pfam_subset*
 
+# Alignment / variant data — per lecture
+*/data/input/*.bam
+*/data/input/*.bam.bai
+*/data/input/*.bai
+*/data/input/*.fa
+*/data/input/*.fa.*
+*/data/input/*.fasta
+*/data/input/*.fasta.*
+*/data/input/*.fq
+*/data/truth/*
+!*/data/truth/.gitkeep
+
 # Outputs — per lecture
 */outputs/
 

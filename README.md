@@ -7,7 +7,7 @@
 | Лекция | Тема | Статус |
 |--------|------|--------|
 | [genome_annotation/](genome_annotation/) | Аннотация прокариотического генома | Готово |
-| [variant_calling/](variant_calling/) | Поиск геномных вариантов (SNP/InDel) | В разработке |
+| [variant_calling/](variant_calling/) | Поиск геномных вариантов (SNP/InDel) | Готово |
 
 ## Структура репозитория
 
@@ -19,6 +19,7 @@ blastim_ngs/
 ├── genome_annotation/         ← Практикум: аннотация генома
 │   ├── README.md
 │   ├── INSTRUCTOR.md
+│   ├── CONTRIBUTING.md
 │   ├── Makefile
 │   ├── env/
 │   ├── scripts/
@@ -27,7 +28,16 @@ blastim_ngs/
 │   ├── homework/
 │   └── docs/
 └── variant_calling/           ← Практикум: поиск вариантов
-    └── README.md
+    ├── README.md
+    ├── INSTRUCTOR.md
+    ├── CONTRIBUTING.md
+    ├── Makefile
+    ├── env/
+    ├── scripts/
+    ├── workflow/
+    ├── data/
+    ├── homework/
+    └── docs/
 ```
 
 ## Быстрый старт

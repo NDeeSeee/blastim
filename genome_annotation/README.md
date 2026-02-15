@@ -101,6 +101,7 @@ genome_annotation/
 │   ├── TEMPLATE_case.md     ← Шаблон для Части 2
 │   └── submissions/         ← Папки студентов (через fork/PR)
 └── docs/
+    ├── glossary.md          ← Термины, концепции, инструменты
     ├── cheatsheet.md        ← Все команды для копирования
     ├── expected_outputs.md
     ├── troubleshooting.md
