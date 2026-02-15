@@ -73,6 +73,7 @@ bash scripts/50_pick_3_genes.sh     # Обсуждение примеров ге
 genome_annotation/
 ├── README.md              ← Вы здесь
 ├── INSTRUCTOR.md          ← Руководство преподавателя
+├── CONTRIBUTING.md        ← Как сдать ДЗ (fork/PR)
 ├── Makefile               ← make env / make all / make clean
 ├── env/
 │   ├── environment.yml    ← Спецификация conda-окружения
