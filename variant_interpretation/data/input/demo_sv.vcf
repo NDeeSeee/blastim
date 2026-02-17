@@ -1,0 +1,25 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##FILTER=<ID=LowQual,Description="Low quality structural variant call">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
+##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the structural variant">
+##INFO=<ID=SVLEN,Number=1,Type=Integer,Description="Length of the SV (negative for deletions)">
+##INFO=<ID=CIPOS,Number=2,Type=Integer,Description="Confidence interval around POS for imprecise variants">
+##INFO=<ID=CIEND,Number=2,Type=Integer,Description="Confidence interval around END for imprecise variants">
+##INFO=<ID=IMPRECISE,Number=0,Type=Flag,Description="Imprecise structural variation">
+##INFO=<ID=SUPPORT,Number=1,Type=Integer,Description="Number of reads supporting the SV">
+##INFO=<ID=GENE,Number=1,Type=String,Description="Overlapping gene(s), if any">
+##ALT=<ID=DEL,Description="Deletion">
+##ALT=<ID=DUP,Description="Tandem Duplication">
+##ALT=<ID=INV,Description="Inversion">
+##contig=<ID=chr7,length=159345973,assembly=GRCh38>
+##contig=<ID=chr17,length=83257441,assembly=GRCh38>
+##reference=GRCh38
+##source=teaching_demo_sv_v1
+##note=Educational SV VCF for NGS course. For teaching structural variant format only. Not for clinical use.
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr17	7600000	SV001	N	<DEL>	350	PASS	SVTYPE=DEL;END=7620000;SVLEN=-20000;CIPOS=-50,50;CIEND=-50,50;SUPPORT=45;GENE=TP53_upstream
+chr17	43000000	SV002	N	<DUP>	280	PASS	SVTYPE=DUP;END=43500000;SVLEN=500000;CIPOS=-100,100;CIEND=-100,100;IMPRECISE;SUPPORT=32;GENE=BRCA1
+chr7	140700000	SV003	N	<INV>	420	PASS	SVTYPE=INV;END=140900000;SVLEN=200000;CIPOS=-200,200;CIEND=-200,200;SUPPORT=58;GENE=BRAF
+chr7	55086000	SV004	N	<DUP>	180	LowQual	SVTYPE=DUP;END=55280000;SVLEN=194000;CIPOS=-500,500;CIEND=-500,500;IMPRECISE;SUPPORT=18;GENE=EGFR
+chr1	1000000	SV005	ACTGACTG	A	220	PASS	SVTYPE=DEL;END=1000007;SVLEN=-7;CIPOS=0,0;CIEND=0,0;SUPPORT=67;GENE=.

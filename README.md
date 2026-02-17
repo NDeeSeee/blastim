@@ -8,6 +8,7 @@
 |--------|------|--------|
 | [genome_annotation/](genome_annotation/) | Аннотация прокариотического генома | Готово |
 | [variant_calling/](variant_calling/) | Поиск геномных вариантов (SNP/InDel) | Готово |
+| [variant_interpretation/](variant_interpretation/) | Интерпретация вариантов (VEP, ClinVar, SV) | Готово |
 
 ## Структура репозитория
 
@@ -31,7 +32,18 @@ blastim_ngs/
 │   ├── data/
 │   ├── homework/
 │   └── docs/
-└── variant_calling/           ← Практикум: поиск вариантов
+├── variant_calling/           ← Практикум: поиск вариантов
+│   ├── README.md
+│   ├── INSTRUCTOR.md
+│   ├── CONTRIBUTING.md
+│   ├── Makefile
+│   ├── env/
+│   ├── scripts/
+│   ├── workflow/
+│   ├── data/
+│   ├── homework/
+│   └── docs/
+└── variant_interpretation/    ← Практикум: интерпретация вариантов
     ├── README.md
     ├── INSTRUCTOR.md
     ├── CONTRIBUTING.md

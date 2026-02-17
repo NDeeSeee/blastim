@@ -1,0 +1,32 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele frequency (estimated from gnomAD or simulated)">
+##INFO=<ID=gnomAD_AF,Number=A,Type=Float,Description="gnomAD allele frequency (0 if absent)">
+##INFO=<ID=ClinVar,Number=1,Type=String,Description="ClinVar significance (educational annotation)">
+##contig=<ID=chr7,length=159345973,assembly=GRCh38>
+##contig=<ID=chr17,length=83257441,assembly=GRCh38>
+##reference=GRCh38
+##source=teaching_demo_variant_interpretation_v1
+##note=Educational VCF for NGS course. Variants are curated from known sources for teaching. Not for clinical use.
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr17	7674220	rs28934574	C	T	999	PASS	DP=48;AF=0.98;gnomAD_AF=0.000001;ClinVar=Pathogenic
+chr17	7673802	rs28934578	G	A	850	PASS	DP=55;AF=0.96;gnomAD_AF=0.000001;ClinVar=Pathogenic
+chr17	7675233	.	G	T	210	PASS	DP=62;AF=0.47;gnomAD_AF=0.000030;ClinVar=Uncertain_significance
+chr17	7676154	rs1042522	C	G	999	PASS	DP=80;AF=0.44;gnomAD_AF=0.380000;ClinVar=Benign
+chr17	7677571	rs1625895	T	C	999	PASS	DP=95;AF=0.49;gnomAD_AF=0.250000;ClinVar=Benign
+chr17	7682779	rs1800372	G	T	180	PASS	DP=44;AF=0.18;gnomAD_AF=0.001200;ClinVar=Uncertain_significance
+chr17	7688549	.	C	T	75	PASS	DP=38;AF=0.42;gnomAD_AF=0.120000;ClinVar=Benign
+chr17	7673535	rs587782510	GT	G	580	PASS	DP=42;AF=0.97;gnomAD_AF=0.000000;ClinVar=Pathogenic
+chr17	7675148	ATG	A	220	PASS	DP=36;AF=0.95;gnomAD_AF=0.000000;ClinVar=Likely_pathogenic
+chr17	7685012	.	C	T	55	PASS	DP=25;AF=0.84;gnomAD_AF=0.000080;ClinVar=Uncertain_significance
+chr7	140753336	rs113488022	A	T	999	PASS	DP=67;AF=0.95;gnomAD_AF=0.000005;ClinVar=Pathogenic
+chr7	140753335	rs121913364	C	T	999	PASS	DP=60;AF=0.51;gnomAD_AF=0.049000;ClinVar=Benign
+chr7	55174777	rs121913459	C	T	999	PASS	DP=71;AF=0.99;gnomAD_AF=0.000002;ClinVar=Pathogenic
+chr7	55191822	rs121913375	T	G	940	PASS	DP=58;AF=0.98;gnomAD_AF=0.000003;ClinVar=Pathogenic
+chr7	55242465	.	G	A	75	PASS	DP=33;AF=0.79;gnomAD_AF=0.002100;ClinVar=Uncertain_significance
+chr17	43090946	rs1799966	G	A	999	PASS	DP=120;AF=0.49;gnomAD_AF=0.420000;ClinVar=Benign
+chr17	43094447	rs4986850	T	C	999	PASS	DP=88;AF=0.51;gnomAD_AF=0.330000;ClinVar=Benign
+chr17	43104261	rs80357521	T	TA	185	PASS	DP=29;AF=0.96;gnomAD_AF=0.000100;ClinVar=Likely_pathogenic
+chr17	43049194	rs80357906	T	TA	999	PASS	DP=44;AF=0.97;gnomAD_AF=0.006000;ClinVar=Pathogenic
+chr17	43067607	.	G	A	65	PASS	DP=20;AF=0.85;gnomAD_AF=0.000020;ClinVar=Uncertain_significance

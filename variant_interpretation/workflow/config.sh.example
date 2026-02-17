@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# ── Конфигурация практикума: Интерпретация вариантов ─────────────────
+# Скопируйте этот файл:
+#   cp workflow/config.sh.example workflow/config.sh
+#
+# Все пути — относительно директории практикума (variant_interpretation/).
+# ─────────────────────────────────────────────────────────────────────
+
+# Число CPU
+CPUS=4
+
+# Входные данные (относительные пути)
+DEMO_VCF="data/input/demo_variants.vcf"
+DEMO_SV_VCF="data/input/demo_sv.vcf"
+PRECOMPUTED_VEP="data/input/demo_variants_vep.tsv"
+
+# Выходная директория (создаётся при запуске)
+OUTDIR="${OUTDIR:-outputs/run_latest}"
+
+# ── Настройки VEP ─────────────────────────────────────────────────────
+# Режим VEP: "rest" (нужен интернет) или "offline" (нужен VEP_CACHE_DIR)
+# По умолчанию: rest — не требует загрузки cache (15 ГБ)
+VEP_MODE="rest"
+
+# Путь к VEP cache (для режима offline, подготавливается преподавателем):
+#   VEP_MODE="offline"
+#   VEP_CACHE_DIR="/shared/vep_cache"
+VEP_CACHE_DIR="/shared/vep_cache"
+
+# Genome assembly
+VEP_ASSEMBLY="GRCh38"
+
+# Версия Ensembl
+VEP_VERSION="110"
+
+# ── Пороги для приоритизации ─────────────────────────────────────────
+# Варианты с AF ниже порога считаются «редкими»
+AF_RARE_THRESHOLD=0.01
+
+# Минимальная глубина покрытия
+MIN_DP=10
+
+# ── End of config ─────────────────────────────────────────────────────
