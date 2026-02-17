@@ -214,11 +214,11 @@ def build_sv_section() -> str:
         "## Структурные варианты (SV / CNV)\n"
         "\n"
         "Полный анализ структурных вариантов и CNV выполняется скриптом "
-        "`workflow/30_sv_cnv_intro.sh`.\n"
+        "`scripts/30_sv_cnv_intro.sh`.\n"
         "Результаты доступны в директории `outputs/<run>/sv/`.\n"
         "\n"
         "Краткое описание:\n"
-        "- Запуск: `bash workflow/30_sv_cnv_intro.sh`\n"
+        "- Запуск: `bash scripts/30_sv_cnv_intro.sh`\n"
         "- Форматы вывода: VCF (структурные варианты), BED (CNV регионы)\n"
         "- Смотрите также: `data/input/demo_sv.vcf` для примеров SV записей\n"
     )
