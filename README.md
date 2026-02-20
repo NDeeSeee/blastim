@@ -63,10 +63,16 @@ blastim_ngs/
 git clone git@github.com:NDeeSeee/blastim_ngs.git
 cd blastim_ngs
 
-# Перейдите в нужный практикум
-cd genome_annotation
+# Выберите практикум и перейдите в него
+cd genome_annotation       # Практикум 1: Аннотация генома (B. subtilis)
+cd variant_calling         # Практикум 2: Variant Calling (B. subtilis)
+cd variant_interpretation  # Практикум 3: Интерпретация вариантов (H. sapiens GRCh38)
 
-# Следуйте инструкциям в README.md выбранного практикума
+# Внутри каждого практикума:
+cp workflow/config.sh.example workflow/config.sh
+make env    # создать conda-окружение
+make check  # проверить систему
+make all    # запустить полный пайплайн
 ```
 
 ## Предварительные требования
